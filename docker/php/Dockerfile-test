@@ -1,0 +1,31 @@
+FROM php:8.3-fpm-alpine3.19
+
+# Instalar dependências
+RUN apk add --no-cache \
+    bash \
+    curl \
+    libpng-dev \
+    libzip-dev \
+    zlib-dev
+
+# Instalar extensões PHP
+RUN docker-php-ext-install gd zip
+
+# Copiar o Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Definir diretório de trabalho
+WORKDIR /var/www
+
+# Copiar o entrypoint
+COPY ./docker/php/entrypoint.sh /entrypoint.sh
+
+# Dar permissão de execução
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 9000
+
+# Definir entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["php-fpm"]
