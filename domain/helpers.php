@@ -301,7 +301,7 @@ if (!function_exists('getGenres')) {
         return
             [
                 [
-                    'genre' => 'Lorem',
+                    'name' => 'Lorem',
                 ],
             ];
     }
