@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
     application:
         build:
@@ -6,12 +8,14 @@ services:
         image: application
         container_name: application
         tty: true
+#        entrypoint: [ "/bin/sh", "-c", "/var/www/docker/php/docker-entrypoint.sh php-fpm" ]
         ports:
             - "9090:9000"
         volumes:
             - .:/var/www
         networks:
             - laravel_app
+
     nginx:
         image: nginx:alpine
         container_name: nginx
@@ -22,5 +26,23 @@ services:
             - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
         networks:
             - laravel_app
+
+    mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        container_name: mssql
+        environment:
+            SA_PASSWORD: "Junin@Padaria123"
+            ACCEPT_EULA: "Y"
+            MSSQL_PID: "Express"
+        ports:
+            - "1433:1433"
+        volumes:
+            - mssql_data:/var/opt/mssql
+        networks:
+            - laravel_app
+
 networks:
     laravel_app:
+
+volumes:
+    mssql_data:
