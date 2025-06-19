@@ -10,7 +10,7 @@ class AuthResource extends JsonResource
     {
         return [
             'email' => $this['email'],
-            'token' => $this->getActionToken(),
+            'token' => $this->getActiveToken(),
         ];
     }
 }

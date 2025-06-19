@@ -13,6 +13,26 @@ class User extends Authenticatable {
 
     protected $table      = 'users';
     protected $primaryKey = 'id_user';
+    public $incrementing = true;
+
+    protected $casts  = [
+        'access_type' => 'integer',
+        'id_user'     => 'integer',
+        'telephony'   => 'integer'
+    ];
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'telephony',
+        'access_type',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     public function setActiveToken(string $token): void
     {
