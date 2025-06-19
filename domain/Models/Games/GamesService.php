@@ -1,12 +1,11 @@
 <?php
 
-namespace Domain\Games;
+namespace Domain\Models\Games;
 
-use Domain\BaseService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class GamesService extends BaseService
+class GamesService
 {
     public function globalAchievementForGame(string|int $appid): array
     {

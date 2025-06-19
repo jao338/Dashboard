@@ -1,13 +1,13 @@
 <?php
 
-namespace Domain\Games;
+namespace Domain\Models\Games;
 
 use Domain\BaseController;
-use Domain\Games\Requests\GameDetailsRequest;
-use Domain\Games\Requests\GameStatsRequest;
-use Domain\Games\Resources\GameDetailsExtraResource;
-use Domain\Games\Resources\GamesAchievementsResource;
-use Domain\Games\Resources\GamesResource;
+use Domain\Models\Games\Requests\GameDetailsRequest;
+use Domain\Models\Games\Requests\GameStatsRequest;
+use Domain\Models\Games\Resources\GameDetailsExtraResource;
+use Domain\Models\Games\Resources\GamesAchievementsResource;
+use Domain\Models\Games\Resources\GamesResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GamesController extends BaseController {

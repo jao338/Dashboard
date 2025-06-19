@@ -1,11 +1,10 @@
 <?php
 
-namespace Domain\Dashboard;
+namespace Domain\Models\Dashboard;
 
-use Domain\BaseService;
 use Illuminate\Support\Facades\Http;
 
-class DashboardService extends BaseService
+class DashboardService
 {
     public function getColumnsChart(): array
     {

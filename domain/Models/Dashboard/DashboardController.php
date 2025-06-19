@@ -1,9 +1,9 @@
 <?php
 
-namespace Domain\Dashboard;
+namespace Domain\Models\Dashboard;
 
 use Domain\BaseController;
-use Domain\Dashboard\Resources\ColumnsChartResource;
+use Domain\Models\Dashboard\Resources\ColumnsChartResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DashboardController extends BaseController {

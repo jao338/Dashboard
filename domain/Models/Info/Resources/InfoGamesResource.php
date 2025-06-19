@@ -1,15 +1,15 @@
 <?php
 
-namespace Domain\Info\Resources;
+namespace Domain\Models\Info\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InfoGenresResource extends JsonResource
+class InfoGamesResource extends JsonResource
 {
     public function toArray($request): array
     {
         return [
-            'genre' => $this['genre'],
+            'game' => $this['game'],
         ];
     }
 }

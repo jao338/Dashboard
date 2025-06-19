@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Games\Requests;
+namespace Domain\Models\Games\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
