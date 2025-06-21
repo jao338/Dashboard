@@ -22,9 +22,10 @@ class DatabaseSeeder extends Seeder {
                                     'email_verified_at' => now(),
                                     'remember_token'    => Str::random(10),
                                 ]);
-//        Genre::factory()->create([
-//                                    'name'              => fake()->name(),
-//                                    'icon'              => fake()->name(),
-//                                ]);
+
+        Genre::factory()->create([
+                                    'name'              => 'Home',
+                                    'icon'              => 'home',
+                                ]);
     }
 }

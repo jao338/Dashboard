@@ -2,7 +2,6 @@
 
 namespace Domain\Models\User;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
@@ -27,7 +26,6 @@ class User extends Authenticatable {
     protected $fillable = [
         'name',
         'email',
-        'uuid',
         'password',
         'telephony',
         'access_type',

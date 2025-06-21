@@ -10,6 +10,6 @@ class GenreController extends Controller {
 
     public function lookup(GenreService $service): JsonResource
     {
-        return new GenreResource($service->lookup());
+        return GenreResource::collection($service->lookup());
     }
 }

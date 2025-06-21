@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('genres', function (Blueprint $table) {
-            $table->bigInteger('id_genre')->primary();
+            $table->increments('id_genre');
+            $table->uuid()->unique();
             $table->string('name');
             $table->string('icon')->nullable();
             $table->timestamps();
-            $table->uuid();
         });
     }
 
