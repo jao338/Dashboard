@@ -4,6 +4,7 @@ use Domain\Models\Auth\AuthController;
 use Domain\Models\Dashboard\DashboardController;
 use Domain\Models\Games\GamesController;
 use Domain\Models\Info\InfoController;
+use Domain\Models\Genre\GenreController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -12,7 +13,9 @@ Route::group([
     Route::post('login', [AuthController::class, 'login'])->name('login');
 });
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group([
+//        'middleware' => 'auth:sanctum'
+    ], function () {
     Route::get('me', [AuthController::class, 'me'])->name('me')->middleware('auth:sanctum');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 
@@ -33,5 +36,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('categories', [InfoController::class, 'getCategories']);
         Route::get('tags', [InfoController::class, 'getTags']);
         Route::get('most-played-games', [InfoController::class, 'getIDSMostPlayedGames']);
+    });
+
+    Route::group(['prefix' => 'lookups'], function () {
+        Route::get('genres', [GenreController::class, 'lookup']);
     });
 });

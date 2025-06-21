@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->bigInteger('id_category')->primary();
+            $table->string('icon')->nullable();
             $table->string('name');
             $table->timestamps();
             $table->uuid();

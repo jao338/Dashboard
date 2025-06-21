@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domain\Models\Genre\Genre;
+use Domain\Models\User\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -23,5 +22,9 @@ class DatabaseSeeder extends Seeder {
                                     'email_verified_at' => now(),
                                     'remember_token'    => Str::random(10),
                                 ]);
+//        Genre::factory()->create([
+//                                    'name'              => fake()->name(),
+//                                    'icon'              => fake()->name(),
+//                                ]);
     }
 }
