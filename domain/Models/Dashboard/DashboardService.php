@@ -6,35 +6,40 @@ use Illuminate\Support\Facades\Http;
 
 class DashboardService
 {
-    public function getColumnsChart(): array
+    public function mostPlayedGames(int $limit = 10): array
     {
         try {
+            $response = Http::get(getSteamEndpoint('most_played_games'));
 
-            $games = [
-                ['appid' => 730, 'fallbackName' => 'Counter-Strike 2', 'peak_players' => 0],
-                ['appid' => 570, 'fallbackName' => 'Dota 2', 'peak_players' => 0],
-                ['appid' => 578080, 'fallbackName' => 'PUBG: BATTLEGROUNDS', 'peak_players' => 0],
-                ['appid' => 1172470, 'fallbackName' => 'Apex Legends', 'peak_players' => 0],
-            ];
+            $games = $response->json()['response']['ranks'] ?? [];
+
+            if (empty($games)) {
+                throw new \Exception('Nenhum jogo retornado pela API da Steam.');
+            }
+
+            $games = array_slice($games, 0, $limit);
 
             $results = [];
 
             foreach ($games as $game) {
                 try {
-                    $currentPlayers = Http::get(getSteamEndpoint('players_online', [
-                        'appid' => $game['appid']
-                    ]));
-
                     $details = Http::get(getSteamEndpoint('game_details', [
                         'appid' => $game['appid']
                     ]));
 
-                    $jsonDetails = $details->json()[$game['appid']]['data'] ?? null;
+                    $jsonDetails = $details->json()[$game['appid']]['data'] ?? [];
+
+                    $current = Http::get(getSteamEndpoint('players_online', [
+                        'appid' => $game['appid']
+                    ]));
+
+                    $currentPlayers = $current->json()['response']['player_count'] ?? 0;
 
                     $results[] = [
-                        'title'          => $jsonDetails['name'] ?? $game['fallbackName'],
-                        'current_players' => $currentPlayers->json()['response']['player_count'] ?? 0,
-                        'peak_players'    => $game['peak_players'],
+                        'title'           => $jsonDetails['name'] ?? 'Desconhecido',
+                        'appid'           => $game['appid'] ?? 0,
+                        'current_players' => $currentPlayers,
+                        'peak_players'    => $game['peak_in_game'] ?? 0,
                     ];
                 } catch (\Exception $e) {
                     report($e);
@@ -42,9 +47,9 @@ class DashboardService
             }
 
             return $results;
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             report($e);
-            throw new \Exception('Erro ao buscar jogos: ' . $e->getMessage());
+            throw new \Exception('Erro ao buscar jogos mais jogados: ' . $e->getMessage());
         }
     }
 }

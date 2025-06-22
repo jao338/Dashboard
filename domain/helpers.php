@@ -3,7 +3,7 @@
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-if (!function_exists('setDate')) {
+if ( !function_exists('setDate')) {
     function setDate($value)
     {
         if (trim($value) == '') {
@@ -13,22 +13,23 @@ if (!function_exists('setDate')) {
     }
 }
 
-if (!function_exists('getSteamEndpoint')) {
+if ( !function_exists('getSteamEndpoint')) {
     function getSteamEndpoint(string $key, array $params = []): string
     {
         //  Quando estiver finalizado alterar o uso de "getTestSteamId"
         $endpoints = [
-            'players_online' => 'https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid={appid}',
-            'achievements' => 'https://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid={appid}',
-            'game_details' => 'https://store.steampowered.com/api/appdetails?appids={appid}',
-            'game_news' => 'https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid={appid}&count=3&maxlength=300&format=json',
-            'player_info' => 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=' . getSteamApiKey() . '&steamids=' . getTestSteamId(),
-            'app_list' => 'https://api.steampowered.com/ISteamApps/GetAppList/v2/',
-            'player_friendlist' => 'https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=' . getSteamApiKey() . '&steamid=' . getTestSteamId() . '&relationship=friend',
-            'player_achievements' => 'https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid={appid}&key=' . getSteamApiKey() . '&steamid=' . getTestSteamId(), '',
+            'players_online'      => 'https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid={appid}',
+            'achievements'        => 'https://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/?gameid={appid}',
+            'game_details'        => 'https://store.steampowered.com/api/appdetails?appids={appid}',
+            'game_news'           => 'https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid={appid}&count=3&maxlength=300&format=json',
+            'player_info'         => 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=' . getSteamApiKey() . '&steamids=' . getTestSteamId(),
+            'app_list'            => 'https://api.steampowered.com/ISteamApps/GetAppList/v2/',
+            'player_friendlist'   => 'https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=' . getSteamApiKey() . '&steamid=' . getTestSteamId() . '&relationship=friend',
+            'player_achievements' => 'https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid={appid}&key=' . getSteamApiKey() . '&steamid=' . getTestSteamId(),
+            'most_played_games'   => 'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/',
         ];
 
-        if (!isset($endpoints[$key])) {
+        if ( !isset($endpoints[$key])) {
             throw new InvalidArgumentException("Invalid Steam API key: {$key}");
         }
 
@@ -42,14 +43,14 @@ if (!function_exists('getSteamEndpoint')) {
     }
 }
 
-if (!function_exists('getSteamApiKey')) {
+if ( !function_exists('getSteamApiKey')) {
     function getSteamApiKey(): string
     {
         return env('STEAM_API_KEY', '');
     }
 }
 
-if (!function_exists('getTestSteamId')) {
+if ( !function_exists('getTestSteamId')) {
     function getTestSteamId(): string
     {
         return env('TEST_STEAM_ID', '');
@@ -57,7 +58,7 @@ if (!function_exists('getTestSteamId')) {
 }
 
 //  Criar uma migration com essas informações
-if (!function_exists('getCategories')) {
+if ( !function_exists('getCategories')) {
     function getCategories(): array
     {
         return
@@ -211,42 +212,68 @@ if (!function_exists('getCategories')) {
 }
 
 //  Criar uma migration com essas informações
-if (!(function_exists('getIDSMostPlayedGames'))) {
+if ( !( function_exists('getIDSMostPlayedGames') )) {
     function getIDSMostPlayedGames(): array
     {
         return [
-            ['game' => '730'], // CS 2
-            ['game' => '2357570'], // Overwatch 2
-            ['game' => '2246340'], // Monster Hunter WIlds
-            ['game' => '570'], // Dota 2
-            ['game' => '578080'], // PUBG
-            ['game' => '2767030'], // Marvel Rivals
-            ['game' => '271590'], // Grand Theft Auto V Legacy
-            ['game' => '3240220'], // Grand Theft Auto V Enhanced
-            ['game' => '359550'], // Tom Clancy's Rainbow Six Siege
-            ['game' => '440'], // Team Fortress 2
-            ['game' => '1174180'], // Red Dead Redemption
-            ['game' => '1245620'], // Elden Ring
-            ['game' => '1086940'], // Baldur's Gate 3
-            ['game' => '289070'], // Sid Meier's Civilization VI
-            ['game' => '1623730'], // Palworld
-            ['game' => '1222670'], // The Sims 4
-            ['game' => '1091500'], // Cyberpunk 2077
-            ['game' => '227300'], // Euro Truck Simulator 2
-            ['game' => '489830'], // The Elder Scrolls V: Skyrim Special Edition
-            ['game' => '2379780'], // Balatro
-            ['game' => '550'], // Left 4 Dead 2
-            ['game' => '292030'], // The Witcher 3: Wild Hunt
-            ['game' => '252950'], // Rocket League
-            ['game' => '814380'], // Sekiro: Shadows Die Twice
-            ['game' => '648800'], // Raft
-            ['game' => '1172620'], // Sea of Thieves
+            ['game' => '730'],
+            // CS 2
+            ['game' => '2357570'],
+            // Overwatch 2
+            ['game' => '2246340'],
+            // Monster Hunter WIlds
+            ['game' => '570'],
+            // Dota 2
+            ['game' => '578080'],
+            // PUBG
+            ['game' => '2767030'],
+            // Marvel Rivals
+            ['game' => '271590'],
+            // Grand Theft Auto V Legacy
+            ['game' => '3240220'],
+            // Grand Theft Auto V Enhanced
+            ['game' => '359550'],
+            // Tom Clancy's Rainbow Six Siege
+            ['game' => '440'],
+            // Team Fortress 2
+            ['game' => '1174180'],
+            // Red Dead Redemption
+            ['game' => '1245620'],
+            // Elden Ring
+            ['game' => '1086940'],
+            // Baldur's Gate 3
+            ['game' => '289070'],
+            // Sid Meier's Civilization VI
+            ['game' => '1623730'],
+            // Palworld
+            ['game' => '1222670'],
+            // The Sims 4
+            ['game' => '1091500'],
+            // Cyberpunk 2077
+            ['game' => '227300'],
+            // Euro Truck Simulator 2
+            ['game' => '489830'],
+            // The Elder Scrolls V: Skyrim Special Edition
+            ['game' => '2379780'],
+            // Balatro
+            ['game' => '550'],
+            // Left 4 Dead 2
+            ['game' => '292030'],
+            // The Witcher 3: Wild Hunt
+            ['game' => '252950'],
+            // Rocket League
+            ['game' => '814380'],
+            // Sekiro: Shadows Die Twice
+            ['game' => '648800'],
+            // Raft
+            ['game' => '1172620'],
+            // Sea of Thieves
         ];
     }
 }
 
 //  Criar uma migration com essas informAções
-if (!function_exists('getTags')) {
+if ( !function_exists('getTags')) {
     function getTags(): array
     {
         return [
@@ -298,7 +325,7 @@ if (!function_exists('getTags')) {
     }
 }
 
-if (!function_exists('getGenres')) {
+if ( !function_exists('getGenres')) {
     function getGenres(): array
     {
         return
@@ -310,7 +337,7 @@ if (!function_exists('getGenres')) {
     }
 }
 
-if(!function_exists('requestFromFrontend')) {
+if ( !function_exists('requestFromFrontend')) {
     function requestFromFrontend(): bool
     {
         $domain = request()->headers->get('referer') ?: request()->headers->get('origin');
@@ -325,6 +352,6 @@ if(!function_exists('requestFromFrontend')) {
 
         $stateful = array_filter(config('sanctum.stateful', []));
 
-        return Str::is(Collection::make($stateful)->map(fn($uri): string => trim((string) $uri) . '/*')->all(), $domain);
+        return Str::is(Collection::make($stateful)->map(fn($uri): string => trim((string)$uri) . '/*')->all(), $domain);
     }
 }

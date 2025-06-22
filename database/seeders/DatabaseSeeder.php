@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use Domain\Models\Category\Category;
 use Domain\Models\Genre\Genre;
+use Domain\Models\Tag\Tag;
 use Domain\Models\User\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -24,8 +26,16 @@ class DatabaseSeeder extends Seeder {
                                 ]);
 
         Genre::factory()->create([
-                                    'name'              => 'Home',
+                                    'name'              => 'Lorem',
                                     'icon'              => 'home',
                                 ]);
+        Tag::factory()->create([
+                                     'name'              => 'Lorem',
+                                     'icon'              => 'home',
+                                 ]);
+        Category::factory()->create([
+                                     'name'              => 'Lorem',
+                                     'icon'              => 'home',
+                                 ]);
     }
 }

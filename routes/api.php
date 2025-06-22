@@ -5,6 +5,8 @@ use Domain\Models\Dashboard\DashboardController;
 use Domain\Models\Games\GamesController;
 use Domain\Models\Info\InfoController;
 use Domain\Models\Genre\GenreController;
+use Domain\Models\Tag\TagController;
+use Domain\Models\Category\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -13,15 +15,27 @@ Route::group([
     Route::post('login', [AuthController::class, 'login'])->name('login');
 });
 
+/*
+    **  NÃO APAGAR - https://chatgpt.com/c/68582671-1f60-800b-af91-844f30a0dd80 **
+
+    **  PENSAR NUMA SOLUÇÃO **
+    **  Devo criar uma tabela com informações dos jogos? Usar estrégia híbrida sugerida pelo chat? Uma base local indexada com os 1000 jogos mais relevantes e atualizar via job a cada 3 dias? Para casos em que o usuário buscar e não encontrar nada na base local, buscar usando o endpoint e guardar no cache? **
+    **  Como salvar as informações de tags, categorias e gêneros na base de dados? Obs. A steam NÃO possiu endpoints que retornem esses dados DIRETAMENTE, porém alguns endpoints retornam essas informações **
+
+    **  FAZER **
+    **  Usar jobs e redis e evitar fazer muitas requisições para as apis da steam. Volte bastante nessa conversa para saber mais. **
+    **  Criar tabela auxiliar com imagens relacionadas ao usuário no perfil. A tabela deve ser usada APENAS quando o usuário não vinculou sua conta da Steam **
+ */
+
+
 Route::group([
-//        'middleware' => 'auth:sanctum'
+        'middleware' => 'auth:sanctum'
     ], function () {
     Route::get('me', [AuthController::class, 'me'])->name('me')->middleware('auth:sanctum');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 
-    // Rotas que montam os gráficos na tela inicial
     Route::group(['prefix' => 'dashboard'], function () {
-        Route::get('numbers-players', [DashboardController::class, 'getColumnsChart']);
+        Route::get('most-played-games', [DashboardController::class, 'mostPlayedGames']);
     });
 
     Route::group(['prefix' => 'games'], function () {
@@ -30,15 +44,9 @@ Route::group([
         Route::get('/details', [GamesController::class, 'gameDetails']);
     });
 
-    // Rotas que retornam os dados usados para montar os componentes na SPA
-    Route::group(['prefix' => 'info'], function () {
-        Route::get('genres', [InfoController::class, 'getGenres']);
-        Route::get('categories', [InfoController::class, 'getCategories']);
-        Route::get('tags', [InfoController::class, 'getTags']);
-        Route::get('most-played-games', [InfoController::class, 'getIDSMostPlayedGames']);
-    });
-
     Route::group(['prefix' => 'lookups'], function () {
         Route::get('genres', [GenreController::class, 'lookup']);
+        Route::get('tags', [TagController::class, 'lookup']);
+        Route::get('categories', [CategoryController::class, 'lookup']);
     });
 });
