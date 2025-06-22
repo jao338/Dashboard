@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('genres', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id_genre');
+            $table->uuid()->unique();
             $table->string('name');
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }

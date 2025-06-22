@@ -2,22 +2,40 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domain\Models\Category\Category;
+use Domain\Models\Genre\Genre;
+use Domain\Models\Tag\Tag;
+use Domain\Models\User\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
-class DatabaseSeeder extends Seeder
-{
+class DatabaseSeeder extends Seeder {
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+                                    'name'              => 'Admin',
+                                    'email'             => 'admin@teste.com',
+                                    'password'          => bcrypt(env('DEFAULT_PASSWORD')),
+                                    'telephony'         => fake()->numerify('###########'),
+                                    'access_type'       => fake()->randomNumber(1),
+                                    'email_verified_at' => now(),
+                                    'remember_token'    => Str::random(10),
+                                ]);
+
+        Genre::factory()->create([
+                                    'name'              => 'Lorem',
+                                    'icon'              => 'home',
+                                ]);
+        Tag::factory()->create([
+                                     'name'              => 'Lorem',
+                                     'icon'              => 'home',
+                                 ]);
+        Category::factory()->create([
+                                     'name'              => 'Lorem',
+                                     'icon'              => 'home',
+                                 ]);
     }
 }

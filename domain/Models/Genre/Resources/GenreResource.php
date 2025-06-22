@@ -1,15 +1,16 @@
 <?php
 
-namespace Domain\Models\Info\Resources;
+namespace Domain\Models\Genre\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InfoGenresResource extends JsonResource
+class GenreResource extends JsonResource
 {
     public function toArray($request): array
     {
         return [
             'name' => $this['name'],
+            'icon' => $this['icon']
         ];
     }
 }

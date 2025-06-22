@@ -6,6 +6,7 @@ use Domain\Base\Exceptions\DashboardException;
 use Domain\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthRepository
 {
@@ -16,11 +17,9 @@ class AuthRepository
         $email = $data['email'];
         $password = $data['password'];
 
-        $user = User::where('email', $email)
-            ->where('senha', $password)
-            ->first();
+        $user = User::where('email', $email)->first();
 
-        throw_if(!$user, new DashboardException(__('messages.invalid_login')));
+        throw_if(!$user || !Hash::check($password, $user->password), new DashboardException(__('messages.invalid_login')));
 
         Auth::login($user);
 
