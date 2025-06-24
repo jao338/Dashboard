@@ -2,11 +2,15 @@
 
 namespace Domain\Models\Games;
 
+use Domain\SteamHttpClient;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 class GamesService
 {
+    public function __construct(
+        protected SteamHttpClient $steam
+    ) {}
     public function globalAchievementForGame(string|int $appid): array
     {
         try {
@@ -20,57 +24,30 @@ class GamesService
 
     public function games(): Collection
     {
-        ini_set('memory_limit', '512M');
+        $apps = $this->steam->fetchAppList();
 
-        try {
-            $apps = $this->fetchAppList();
-
-            return $apps->map(fn ($app) => $this->fetchGameData($app))
-                ->filter()
-                ->values();
-        } catch (\Exception $e) {
-            report($e);
-            throw new \Exception('Erro ao buscar jogos: ' . $e->getMessage());
-        }
-    }
-
-    public function gameDetails(string $appid): array
-    {
-        try {
-            $achievementsResp = Http::get(getSteamEndpoint('achievements', ['appid' => $appid]));
-            $newsResponse     = Http::get(getSteamEndpoint('game_news', ['appid' => $appid]));
-
-            return [
-                'id'              => $appid,
-                'achievements'    => $achievementsResp->json()['achievementpercentages']['achievements'] ?? [],
-                'news'            => $newsResponse->json()['appnews']['newsitems'] ?? [],
-            ];
-        } catch (\Exception $e) {
-            report($e);
-            throw new \Exception('Erro ao buscar informações do jogo: ' . $e->getMessage());
-        }
-    }
-
-    private function fetchAppList(): Collection
-    {
-        $response = Http::get(getSteamEndpoint('app_list'));
-
-        return collect($response->json('applist.apps'))
+        return $apps
             ->filter(fn($app) => !empty($app['name']))
-            ->take(5);
+            ->take(5)
+            ->map(fn($app) => $this->buildGameData($app))
+            ->filter()
+            ->values();
     }
 
-    private function fetchGameData(array $app): ?array
+    public function gameDetails(string|int $appid): array
     {
-        $detailsResponse = Http::get(getSteamEndpoint('game_details', ['appid' => $app['appid']]));
-        $playersResponse = Http::get(getSteamEndpoint('players_online', ['appid' => $app['appid']]));
+        return [
+            'id'            => $appid,
+            'achievements'  => $this->steam->fetchAchievements($appid),
+            'news'          => $this->steam->fetchGameNews($appid),
+        ];
+    }
 
-        if (!$detailsResponse->successful() || !$playersResponse->successful()) {
-            return null;
-        }
 
-        $details = $detailsResponse->json()[$app['appid']]['data'] ?? null;
-        $players = $playersResponse->json()['response']['player_count'] ?? null;
+    private function buildGameData(array $app): ?array
+    {
+        $details = $this->steam->fetchGameDetails($app['appid']);
+        $players = $this->steam->fetchPlayersOnline($app['appid']);
 
         if (!$details || ($details['type'] ?? '') !== 'game') {
             return null;

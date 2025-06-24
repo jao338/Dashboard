@@ -1,12 +1,11 @@
 <?php
 
 use Domain\Models\Auth\AuthController;
+use Domain\Models\Category\CategoryController;
 use Domain\Models\Dashboard\DashboardController;
 use Domain\Models\Games\GamesController;
-use Domain\Models\Info\InfoController;
 use Domain\Models\Genre\GenreController;
 use Domain\Models\Tag\TagController;
-use Domain\Models\Category\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -17,6 +16,7 @@ Route::group([
 
 /*
     **  NÃO APAGAR - https://chatgpt.com/c/68582671-1f60-800b-af91-844f30a0dd80 **
+    **  NÃO APAGAR - https://chatgpt.com/c/685b042d-7ec0-800b-a703-62ce8cef46c6 **
 
     **  PENSAR NUMA SOLUÇÃO **
     **  Devo criar uma tabela com informações dos jogos? Usar estrégia híbrida sugerida pelo chat? Uma base local indexada com os 1000 jogos mais relevantes e atualizar via job a cada 3 dias? Para casos em que o usuário buscar e não encontrar nada na base local, buscar usando o endpoint e guardar no cache? **
