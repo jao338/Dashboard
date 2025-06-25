@@ -7,17 +7,28 @@ use Illuminate\Support\Facades\Http;
 
 class SteamHttpClient
 {
-    public function fetchAppList(): Collection
+
+    public function __construct() {
+        ini_set('memory_limit', '512M');
+    }
+
+    public function fetchAppList(int $limit = 5): Collection
     {
         $response = Http::get(getSteamEndpoint('app_list'));
-        return collect($response->json('applist.apps') ?? []);
+        $apps = collect($response->json('applist.apps') ?? []);
+
+        return $apps->filter(fn($app) => !empty($app['name']))->take($limit);
     }
 
     public function fetchGameDetails(int $appid): ?array
     {
-        $response = Http::get(getSteamEndpoint('game_details', ['appid' => $appid]));
-
-        return $response->json()[$appid]['data'] ?? null;
+        try {
+            $response = Http::get(getSteamEndpoint('game_details', ['appid' => $appid]));
+            return $response->json()[$appid]['data'] ?? null;
+        } catch (\Throwable $e) {
+            logger()->warning("Erro ao buscar detalhes do jogo $appid", ['exception' => $e]);
+            return null;
+        }
     }
 
     public function fetchPlayersOnline(int $appid): ?int

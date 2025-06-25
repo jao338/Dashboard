@@ -6,7 +6,7 @@ use Domain\SteamHttpClient;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-class GamesService
+class GameService
 {
     public function __construct(
         protected SteamHttpClient $steam
@@ -22,16 +22,16 @@ class GamesService
         }
     }
 
-    public function games(): Collection
+    public function fetchTopGames(): Collection
     {
-        $apps = $this->steam->fetchAppList();
-
-        return $apps
-            ->filter(fn($app) => !empty($app['name']))
-            ->take(5)
-            ->map(fn($app) => $this->buildGameData($app))
-            ->filter()
-            ->values();
+        return $this->steam->fetchAppList()
+                           ->filter(fn($app) => !empty($app['name']))
+                           ->take(20)
+                           ->map(function ($app) {
+                               return $this->fetchGameData($app['appid'], $app['name']);
+                           })
+                           ->filter()
+                           ->values();
     }
 
     public function gameDetails(string|int $appid): array
@@ -44,20 +44,22 @@ class GamesService
     }
 
 
-    private function buildGameData(array $app): ?array
+    public function fetchGameData(int $appid, string $name): ?array
     {
-        $details = $this->steam->fetchGameDetails($app['appid']);
-        $players = $this->steam->fetchPlayersOnline($app['appid']);
+        $details = $this->steam->fetchGameDetails($appid);
+        $players = $this->steam->fetchPlayersOnline($appid);
 
         if (!$details || ($details['type'] ?? '') !== 'game') {
             return null;
         }
 
         return [
-            'id'                => $app['appid'],
-            'name'              => $app['name'],
+            'id'                => $appid,
+            'name'              => $name,
+            'icon'              => $details['header_image'] ?? null,
             'details'           => $details,
             'number_of_players' => $players,
         ];
     }
+
 }

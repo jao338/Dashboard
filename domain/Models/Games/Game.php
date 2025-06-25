@@ -5,7 +5,7 @@ namespace Domain\Models\Games;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Games extends Model {
+class Game extends Model {
 
     use HasFactory;
 
@@ -16,8 +16,9 @@ class Games extends Model {
     public $incrementing   = true;
 
     protected $casts  = [
-        'appid'  => 'int',
-        'active' => 'boolean',
+        'appid'             => 'int',
+        'active'            => 'boolean',
+        'max_players_daily' => 'int',
     ];
 
     protected $fillable = [
@@ -31,23 +32,32 @@ class Games extends Model {
 
     public static function syncFromSteam(array $gameData): void
     {
-        static::updateOrCreate(
-            [
-                'max_players_daily' => $gameData['max_players_daily'],
-                'last_synced_at'    => now(),
-            ]
-        );
+        $game = static::firstOrNew(['appid' => $gameData['id']]);
+
+        if (!$game->exists || empty($game->name)) {
+            $game->name = $gameData['name'];
+        }
+
+        if (!$game->exists || empty($game->icon)) {
+            $game->icon = $gameData['icon'] ?? null;
+        }
+
+        $game->max_players_daily = $gameData['number_of_players'] ?? null;
+        $game->last_synced_at    = now();
+        $game->active            = true;
+
+        $game->save();
     }
 
 
     protected static function newFactory()
     {
-        return GamesFactory::new();
+        return GameFactory::new();
     }
 
     protected static function booted()
     {
-        static::creating(function (Games $game) {
+        static::creating(function (Game $game) {
             if (empty($game->uuid)) {
                 $game->uuid = \Str::uuid();
             }
