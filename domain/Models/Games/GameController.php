@@ -21,7 +21,6 @@ class GameController extends BaseController {
 
     public function fetchTopGames(): JsonResource
     {
-        dd($this->service->fetchTopGames());
         return GameResource::collection($this->service->fetchTopGames());
     }
 

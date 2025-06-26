@@ -30,7 +30,7 @@ Route::group([
 
 
 Route::group([
-        'middleware' => 'auth:sanctum'
+//        'middleware' => 'auth:sanctum'
     ], function () {
     Route::get('me', [AuthController::class, 'me'])->name('me')->middleware('auth:sanctum');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
