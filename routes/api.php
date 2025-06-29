@@ -14,6 +14,10 @@ Route::group([
     Route::post('login', [AuthController::class, 'login'])->name('login');
 });
 
+Route::get('/sanctum/csrf-cookie', function (\Illuminate\Http\Request $request) {
+    return response()->noContent();
+});
+
 /*
     **  NÃO APAGAR - https://chatgpt.com/c/68582671-1f60-800b-af91-844f30a0dd80 **
     **  NÃO APAGAR - https://chatgpt.com/c/685b042d-7ec0-800b-a703-62ce8cef46c6 **
@@ -30,7 +34,7 @@ Route::group([
 
 
 Route::group([
-//        'middleware' => 'auth:sanctum'
+        'middleware' => 'auth:sanctum'
     ], function () {
     Route::get('me', [AuthController::class, 'me'])->name('me')->middleware('auth:sanctum');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
