@@ -6,22 +6,22 @@ use Domain\BaseController;
 use Domain\Models\Games\Requests\GameDetailsRequest;
 use Domain\Models\Games\Requests\GameStatsRequest;
 use Domain\Models\Games\Resources\GameDetailsExtraResource;
-use Domain\Models\Games\Resources\GamesAchievementsResource;
-use Domain\Models\Games\Resources\GamesResource;
+use Domain\Models\Games\Resources\GameAchievementsResource;
+use Domain\Models\Games\Resources\GameResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GamesController extends BaseController {
+class GameController extends BaseController {
 
-    public function __construct(protected GamesService $service){}
+    public function __construct(protected GameService $service){}
 
     public function globalAchievementForGame(GameStatsRequest $request): JsonResource
     {
-        return GamesAchievementsResource::collection($this->service->globalAchievementForGame($request->input('id')));
+        return GameAchievementsResource::collection($this->service->globalAchievementForGame($request->input('id')));
     }
 
-    public function games(): JsonResource
+    public function fetchTopGames(): JsonResource
     {
-        return GamesResource::collection($this->service->games());
+        return GameResource::collection($this->service->fetchTopGames());
     }
 
     public function gameDetails(GameDetailsRequest $request): JsonResource

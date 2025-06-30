@@ -3,13 +3,13 @@
 namespace Domain\Models\Genre;
 
 use App\Http\Controllers\Controller;
-use Domain\Models\Genre\Resources\TagResource;
+use Domain\Models\Genre\Resources\GenreResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GenreController extends Controller {
 
     public function lookup(GenreService $service): JsonResource
     {
-        return TagResource::collection($service->lookup());
+        return GenreResource::collection($service->lookup());
     }
 }

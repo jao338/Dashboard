@@ -4,7 +4,7 @@ namespace Domain\Models\Games\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class GamesResource extends JsonResource {
+class GameResource extends JsonResource {
 
     public function toArray($request): array
     {
