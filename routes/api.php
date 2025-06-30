@@ -42,6 +42,10 @@ Route::group([
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('most-played-games', [DashboardController::class, 'mostPlayedGames']);
     });
+    
+    Route::group(['prefix' => 'categories'], function () {
+        Route::apiResource('', CategoryController::class);
+    });
 
     Route::group(['prefix' => 'games'], function () {
         Route::get('', [GameController::class, 'fetchTopGames']);
