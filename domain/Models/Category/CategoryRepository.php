@@ -22,7 +22,6 @@ class CategoryRepository
                             isset($campo_ordenacao) && isset($tipo_ordenacao),
                             fn($query) => $query->orderBy($campo_ordenacao, $tipo_ordenacao)
                         )
-                        ->orderBy('name')
                         ->paginate($per_page);
     }
 
