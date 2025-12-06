@@ -4,6 +4,7 @@ namespace Domain\Models\Auth;
 
 use App\Http\Controllers\Controller;
 use Domain\Models\Auth\Requests\AuthLoginRequest;
+use Domain\Models\Auth\Requests\AuthRegisterRequest;
 use Domain\Models\Auth\Resources\AuthResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,11 @@ class AuthController extends Controller {
     public function login(AuthLoginRequest $request, AuthService $service): JsonResource
     {
         return new AuthResource($service->login($request->all()));
+    }
+    public function register(AuthRegisterRequest $request, AuthService $service): JsonResource
+    {
+        dd($request->validated());
+        return new AuthResource($service->register($request->validated()));
     }
 
     public function logout(Request $request, AuthService $service): JsonResponse

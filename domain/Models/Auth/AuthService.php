@@ -15,6 +15,10 @@ class AuthService
     {
         return $this->repository->login($data);
     }
+    public function register(array $data): User
+    {
+        return $this->repository->register($data);
+    }
     public function logout(Request $request): void
     {
         $this->repository->logout($request);

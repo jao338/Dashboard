@@ -2,7 +2,6 @@
 
 namespace Domain\Models\Auth\Requests;
 
-use Domain\Base\Rules\PasswordRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AuthLoginRequest extends FormRequest {
@@ -11,7 +10,7 @@ class AuthLoginRequest extends FormRequest {
     {
         return [
             'email'    => ['required', 'email'],
-            'password' => ['required', 'string',  'min:8', new PasswordRule($this->input('password'))],
+            'password' => ['required', 'string',  'min:8'],
         ];
     }
 }

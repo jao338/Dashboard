@@ -28,6 +28,17 @@ class AuthRepository
         return $user;
     }
 
+    public function register(array $data): User
+    {
+        $user = $this->model->create($data);
+
+        Auth::login($user);
+
+        $this->setToken($user);
+
+        return $user;
+    }
+
     public function logout(Request $request): void
     {
         if ($request->bearerToken()) {

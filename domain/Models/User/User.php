@@ -20,7 +20,6 @@ class User extends Authenticatable {
         'access_type'           => 'integer',
         'telephony'             => 'integer',
         'email_verified_at'     => 'datetime',
-        'password'              => 'hashed',
     ];
 
     protected $fillable = [
@@ -56,14 +55,15 @@ class User extends Authenticatable {
         return UserFactory::new();
     }
 
+    // Após o projeto ficar pronto, criar tabelas manualmente e deixar para o banco de dados gerar o UUID
     protected static function booted()
     {
         static::creating(function (User $user) {
             if (empty($user->uuid)) {
                 $user->uuid = \Str::uuid();
             }
+            $user->access_type  = $user->access_type ?? 1;
+            $user->password     = bcrypt($user->password);
         });
     }
-
-
 }

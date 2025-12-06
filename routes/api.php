@@ -12,6 +12,7 @@ Route::group([
     'namespace' => 'Auth'
 ], function (): void {
     Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('register', [AuthController::class, 'register'])->name('register');
 });
 
 Route::get('/sanctum/csrf-cookie', function (\Illuminate\Http\Request $request) {
@@ -42,7 +43,7 @@ Route::group([
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('most-played-games', [DashboardController::class, 'mostPlayedGames']);
     });
-    
+
     Route::group(['prefix' => 'categories'], function () {
         Route::apiResource('', CategoryController::class);
     });
