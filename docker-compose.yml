@@ -31,9 +31,10 @@ services:
         image: mcr.microsoft.com/mssql/server:2022-latest
         container_name: mssql
         environment:
-            SA_PASSWORD: "Junin@Padaria123"
+            SA_PASSWORD: ${DB_PASSWORD}
             ACCEPT_EULA: "Y"
             MSSQL_PID: "Express"
+            DB_DATABASE: ${DB_DATABASE}
         ports:
             - "1433:1433"
         volumes:
