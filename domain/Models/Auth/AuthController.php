@@ -18,7 +18,6 @@ class AuthController extends Controller {
     }
     public function register(AuthRegisterRequest $request, AuthService $service): JsonResource
     {
-        dd($request->validated());
         return new AuthResource($service->register($request->validated()));
     }
 

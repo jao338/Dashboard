@@ -11,6 +11,10 @@ class AuthRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => [
+                'required',
+                'string'
+            ],
             'email' => [
                 'required',
                 'email'
@@ -19,12 +23,13 @@ class AuthRegisterRequest extends FormRequest
                 'required',
                 'string',
                 'min:8',
-//                new PasswordRule($this->input('password'), $this->input('confirm_password')),
+                new PasswordRule($this->input('password')),
             ],
             'confirm_password' => [
                 'required',
                 'string',
                 'min:8',
+                'same:password',
             ],
             'access_type' => [
                 'nullable',
