@@ -13,19 +13,19 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'telephony' => fake()->numerify('###########'),
-            'access_type' => fake()->randomNumber(1),
+            'name'              => fake()->name(),
+            'email'             => fake()->unique()->safeEmail(),
+            'telephony'         => fake()->numerify('###########'),
+            'access_type'       => fake()->randomNumber(1),
             'email_verified_at' => now(),
-            'remember_token' => Str::random(10),
-            'password' => bcrypt(env('DEFAULT_PASSWORD')),
+            'remember_token'    => Str::random(10),
+            'password'          => bcrypt(env('DEFAULT_PASSWORD')),
         ];
     }
 
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
