@@ -13,24 +13,11 @@ class PasswordRule implements ValidationRule {
     {
         $password = (string) $value;
 
-        if (strlen($password) < 8) {
-            $fail('A senha deve conter pelo menos 8 caracteres.');
-            return;
-        }
+        // Pelo menos: 8 chars, 1 maiúscula, 1 número, 1 caractere especial
+        $pattern = '/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/';
 
-        if (!preg_match('/[A-Z]/', $password)) {
-            $fail('A senha deve conter pelo menos uma letra maiúscula.');
-            return;
-        }
-
-        if (!preg_match('/[0-9]/', $password)) {
-            $fail('A senha deve conter pelo menos um número.');
-            return;
-        }
-
-        if (!preg_match('/[\W_]/', $password)) { // caracteres especiais
-            $fail('A senha deve conter pelo menos um caractere especial.');
-            return;
+        if (!preg_match($pattern, $password)) {
+            $fail('A senha deve conter ao menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.');
         }
     }
 

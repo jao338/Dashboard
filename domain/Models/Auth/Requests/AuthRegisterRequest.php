@@ -38,7 +38,7 @@ class AuthRegisterRequest extends FormRequest
             ],
             'telephony' => [
                 'integer',
-                //  Criar regra para telefone celular, se precisar
+                'between:10,11'
             ],
         ];
     }
